@@ -4,7 +4,7 @@
  * Created by Reliese Model.
  */
 
-namespace App\Models;
+namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $updated_at
  * @property string|null $deleted_at
  * 
- * @property Collection|Categoria[] $categorias
+ * @property Categoria $categoria
  * @property Collection|Favorito[] $favoritos
  * @property Collection|Imagene[] $imagenes
  * @property Collection|Talla[] $tallas
@@ -49,9 +49,9 @@ class Producto extends Model
 		'crated_at'
 	];
 
-	public function categorias()
+	public function categoria()
 	{
-		return $this->hasMany(Categoria::class);
+		return $this->hasOne(Categoria::class);
 	}
 
 	public function favoritos()

@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Route;
     
 // });
 
-Route::post('login', 'UserController@authenticate');
-Route::get('productos', 'ProductoController@productos');
+Route::post('login'        , 'UserController@authenticate');
+Route::get('productos'     , 'ProductoController@productos');
 Route::get('productos/{id}', 'ProductoController@oneProduct');
+Route::get('promociones'   , 'ProductoController@promociones');
+Route::get('categorias'    , 'ProductoController@categorias');
+Route::get('categoriaProducto/{id}', 'ProductoController@categoriaProducto');

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Categoria;
+use App\CategoriaProducto;
 use App\Producto;
+use App\Promocione;
 use JWTAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +34,30 @@ class ProductoController extends Controller
         return response()->json(compact('productos'));
     }
 
+    public function promociones()
+    {
+        $promociones = Promocione::Select(
+            'promociones.*',
+            'productos.nombre',
+            'productos.precio',
+            'productos.peso',
+            'imagenes.img'
+            )
+        ->join('productos','productos.id','=','promociones.producto_id')
+        ->join('imagenes','imagenes.producto_id','=','productos.id')
+        -> get();
+
+        return response()->json(compact('promociones'));
+    }
+
+    public function categorias()
+    {
+        $categorias = Categoria::Select(
+            'categorias.nombre')
+        -> get();
+
+        return response()->json(compact('categorias'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -65,12 +92,24 @@ class ProductoController extends Controller
 
     public function oneProduct($id)
     {
-        $productos = Producto::Select('productos.*','imagenes.img')
+        $producto = Producto::Select('productos.*','imagenes.img')
         ->Leftjoin('imagenes','imagenes.producto_id','=','productos.id')
         ->where('productos.id','=',$id)
         ->get();
 
-        return response()->json(compact('productos')); 
+        return response()->json(compact('producto')); 
+
+    }
+
+    public function categoriaProducto($id)
+    {
+        $categoriaProducto = CategoriaProducto::Select('productos.*')
+        ->join('productos','productos.id','=','categoria_producto.producto_id')
+        ->join('categorias','categorias.id','=','categoria_producto.categoria_id')
+        ->where('categorias.id','=',$id)
+        ->get();
+
+        return response()->json(compact('categoriaProducto')); 
 
     }
 
